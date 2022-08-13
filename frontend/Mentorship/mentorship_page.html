@@ -5,35 +5,131 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mentoring</title>
-    <link href="/public/neumorphism.css" rel="stylesheet" type="text/css">
+    <style>
+        @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900&display=swap');
+*
+{
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ font-family: 'Poppins', sans-serif;
+}
+body
+{
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ min-height: 100vh;
+ background: #ebf5fc;
+}
+.container
+{
+ position: relative;
+ display: flex;
+ justify-content: space-around;
+ align-items: center;
+ flex-wrap: wrap;
+ width: 1100px;
+}
+.container .card
+{
+ width: 320px;
+ margin: 20px;
+ padding: 40px 30px;
+ background: #e9eff3;
+ border-radius: 40px;
+ box-shadow: -6px -6px 20px rgba(255,255,255,1), 6px 6px 20px rgba(0,0,0,0.1);
+}
+.container .card:hover
+{
+ box-shadow: inset -6px -6px 20px rgba(255,255,255,0.5), inset 6px 6px 20px rgba(0,0,0,0.05);
+}
+.container .card .imgBx
+{
+ position: relative;
+ text-align: center;
+}
+.container .card .imgBx img
+{
+ max-width: 120px;
+}
+.container .card .contentBx
+{
+ position: relative;
+ margin-top: 20px;
+ text-align: center;
+}
+.container .card .contentBx h2
+{
+ color: #32a3b1;
+ font-weight: 700;
+ font-size: 1.4em;
+ letter-spacing: 2px;
+}
+.container .card .contentBx p
+{
+ color: #4dc2cd;
+}
+.container .card .contentBx a
+{
+ display: inline-block;
+ padding: 10px 20px;
+ margin-top: 15px;
+ border-radius: 40px;
+ color: #32a3b1;
+ font-size: 16px;
+ text-decoration: none;
+ box-shadow: -4px -4px 15px rgba(255,255,255,1), 4px 4px 15px rgba(0,0,0,0.1);
+}
+.container .card .contentBx a:hover
+{
+ box-shadow: inset -4px -4px 10px rgba(255,255,255,0.5), inset 4px 4px 10px rgba(0,0,0,0.1);
+}
+.container .card a:hover span
+{
+ display: block;
+ transform: scale(0.98);
+}
+.container .card:hover .imgBx,
+.container .card:hover .contentBx
+{
+ transform: scale(0.98);
+}
+    </style>
 </head>
 <body>
-
-    <section class="section" id="complaint">
-    <div class="container">
-        <div class="columns is-vcentered">
-          <div class="column is-5">  <img class="left-image" src="assets/images/report.png" alt="Bildname" />
-          </div>
-    <div class="column is-8">
-    <div class="column is-10 is-left">
-    <div class="row">
-        <div class="col-12 col-md-10">
-            <div class="card bg-primary shadow-inset text-center border-light p-3">
-                <div class="card-body shadow-soft rounded border border-light py-5">
-                    <span class="card-text small"><span class="far fa-calendar-alt mr-2"></span>15 March 2020</span>
-                    <a href="#" data-toggle="tooltip" data-placement="top" title="" data-original-title="23k followers">
-                        <img class="avatar-sm mr-2 img-fluid rounded-circle ml-3" src="../../assets/img/team/profile-picture-2.jpg" alt="Moore avatar"> Jo J. Moore
-                    </a>
-                    <h3 class="h5 card-title my-4">We partnered up with Google</h3>
-                    <p class="card-text mb-4">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                    <a href="#" class="btn btn-primary btn-sm">Learn More</a>
-                </div>
-            </div>
+        <div class="container">
+          <div class="card">
+             <div class="imgBx">
+             <img src="https://image.flaticon.com/icons/svg/2092/2092063.svg" alt="">
+             </div>
+        <div class="contentBx">
+             <h2>Guidence</h2>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam laboriosam omnis dolore amet sequi nobis provident nisi esse optio recusandae quod.</p>
+                 <a href="./guidence.html"><span>Get guide</span></a>
+             </div>
+       </div>
+        <div class="card">
+        <div class="imgBx">
+        <img src="https://image.flaticon.com/icons/svg/1197/1197460.svg" alt="">
         </div>
-    </div>
-    </div>
-    </div>
-</section>
+        <div class="contentBx">
+        <h2>Connect with Mentors</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam laboriosam omnis dolore amet sequi nobis provident nisi esse optio recusandae quod.</p>
+        <a href="mentors.html"><span>Connect</span></a>
+        </div>
+       </div>
+        <div class="card">
+        <div class="imgBx">
+        <img src="https://image.flaticon.com/icons/svg/1067/1067256.svg" alt="">
+        </div>
+        <div class="contentBx">
+        <h2>Community</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam laboriosam omnis dolore amet sequi nobis provident nisi esse optio recusandae quod.</p>
+        <a href=""><span>Join</span></a>
+        </div>
+       </div>
+       </div>
     
 </body>
 </html>
