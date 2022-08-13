@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>notifications</title>
+</head>
+<body>
+    <script>
+        function showNotification(){
+            const notification = new Notification("New Message from Codefury5",{
+                body:"Hey mate, how are ya? you want to catch up soon ?",
+                icon:""
+            });
+
+            notification.onclick =(e)=>{
+                window.location.href = "https://google.com"
+            }
+        }
+        // default, grandt denied
+        console.log(Notification.permission);
+        if(Notification.permission == "granted"){
+           showNotification();
+        }
+        else if(Notification.permission !=="denied"){
+            Notification.requestPermission().then(permission=>{
+                if(permission === "granted"){
+                    showNotification();
+                }
+            });
+        }
+    </script>
+</body>
+</html>
