@@ -4,13 +4,17 @@ var app = express();
 app.use(cors())
 var path = require('path');
 global.appRoot = path.resolve(__dirname);
+
+
 app.get('/', function (req, res) {
     res.sendFile(__dirname + '/index.html');
 })
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
-
+app.get('/mentors', function (req, res) {
+    res.sendFile(__dirname + '/frontend/Mentorship/mentors.html');
+})
 
 const port = process.env.PORT || 3000;
 app.listen(port, function () {
