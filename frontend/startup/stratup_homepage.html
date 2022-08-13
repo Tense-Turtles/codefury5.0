@@ -10,32 +10,42 @@
 <body>    
     <!--side nav-->
     <div class="row">
-        <div class="col-xl-4">
-            <!-- Tab Nav -->
-            <ul class="nav nav-pills nav-fill flex-column vertical-tab" id="tab12" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link " id="home-tab-3" data-toggle="tab" href="../../index.html" role="tab" aria-controls="tab-14" aria-selected="true">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" id="home-tab-3" data-toggle="tab" href="#tweets" role="tab" aria-controls="tab-14" aria-selected="true">Tweets</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab-3" data-toggle="tab" href="#NewPost" role="tab" aria-controls="tab-15" aria-selected="false">Add A new post</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab-3" data-toggle="tab" href="investers.html" role="tab" aria-controls="tab-15" aria-selected="false">Investers</a>
-                </li>
-                <!-- <li class="nav-item">
-                    <a href="https://twitter.com/startupindia?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @startupindia</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                </li> -->
-                
-            </ul>
-            <!-- End of Tab Nav -->
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 2rem;">
+                <div class="p-4 mb-3 bg-light rounded">
+                    <h4 class="fst-italic">Startups</h4>
+                    <p class="mb-0">You can find all the startups being launched and even find few investers for your startup</p>
+                </div>
+
+                <div class="p-4">
+                    <h4 class="fst-italic">Navigate To</h4>
+                    <ol class="list-unstyled mb-0">
+                        <li><a href="../../index.html">Home</a></li>
+                        <li><a href="#tweets">Tweets</a></li>
+                        <li><a href="newpost.html">Add A new post</a></li>
+                        <li><a href="investers.html">Investers</a></li>
+                        <!-- <li><a href="#">Supply Chain</a></li> -->
+
+                    </ol>
+                </div>
+                <!-- <div class="p-4">
+                    <h4 class="fst-italic">Turn over</h4>
+                    <ol class="list-unstyled mb-0">
+                        <li><a href="#">5 L</a></li>
+                        <li><a href="#">10 L</a></li>
+                        <li><a href="#"></a></li>
+                        <li><a href="#"> > 50 L</a></li>
+                        <li><a href="#">NA</a></li>
+
+                    </ol>
+                </div> -->
+            </div>
         </div>
+
         <div class="col-xl-8">
             <!-- Tab Content -->
             <div class="card shadow-inset bg-primary border-light p-4 rounded">
-                <div class="card-body py-0 px-0">
+                <div class="card-body py-0 px-1">
                     <div class="tab-content" id="tabcontent">
                         <div class="tab-pane fade show active" id="tweets" role="tabpanel" aria-labelledby="tab-14">
                             <a class="twitter-timeline" href="https://twitter.com/startupindia?ref_src=twsrc%5Etfw">Tweets by startupindia</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
