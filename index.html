@@ -145,11 +145,11 @@
 
     <main>
         <section class="section bg-primary overflow-hidden mb-4">
-            <div class="justify-content-center   text-center" style="height: 20vh;">
+            <div class="justify-content-center text-center" id="hero-section" style="height: 20vh;">
                 <h1 class="display-4 fst-italic">Title goes here</h1>
                 <p class="lead my-3">A website to help startups market thier work and attract investors & employees
                 </p>
-                <div class="container" style="max-width: 500px;">
+                <div class="container" id="authContainer" style="max-width: 500px;">
                     <div class="row justify-content-center">
                         <!-- Button trigger modal -->
                         <!-- Button trigger modal -->
@@ -169,7 +169,8 @@
                                                     <h2 class="h4">Sign in</h2>
                                                 </div>
                                                 <div class="card-body">
-                                                    <form action="#" class="mt-4">
+                                                    <form enctype="multipart/form-data" method="POST" action="/login"
+                                                        class="mt-4">
                                                         <div class="form-group">
                                                             <div class="input-group mb-4">
                                                                 <div class="input-group-prepend"><span
@@ -177,6 +178,7 @@
                                                                             class="fas fa-envelope"></span></span></div>
                                                                 <input class="form-control" id="exampleInputIcon3"
                                                                     placeholder="Username" type="text"
+                                                                    name="username"
                                                                     aria-label="email adress">
                                                             </div>
                                                         </div>
@@ -186,7 +188,7 @@
                                                                     <div class="input-group-prepend"><span
                                                                             class="input-group-text"><span
                                                                                 class="fas fa-unlock-alt"></span></span>
-                                                                    </div><input class="form-control"
+                                                                    </div><input class="form-control" name="password"
                                                                         id="exampleInputPassword6"
                                                                         placeholder="Password" type="password"
                                                                         aria-label="Password" required="">
@@ -273,14 +275,12 @@
                     </div>
                 </div>
             </div>
-            </div>
-            </div>
-            </div>
+
         </section>
 
         <section>
             <!-- <h4 class="text-center">There is something for everyone</h4> -->
-            <div class="container text-center">
+            <div class="container text-center mb-5">
                 <div class="row">
                     <div class="col">
                         <div class="card shadow-soft mb-3" style="height:100%;">

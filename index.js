@@ -13,6 +13,8 @@ require('dotenv').config()
 const mySecret = process.env['MONGO_URI']
 const mongoose = require('mongoose');
 mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology: true });
+const cheerio = require('cheerio');
+var fs = require('fs');
 
 const multer = require('multer')
 const storage = multer.memoryStorage()
@@ -20,7 +22,16 @@ const upload = multer({ storage: storage })
 
 
 app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/index.html');
+    if (Username == null) {
+        res.sendFile(__dirname + '/index.html');
+    }
+    else {
+        const $ = cheerio.load(fs.readFileSync('index.html'));
+        $('#authContainer').remove();
+        $('#hero-section').append('<h4>Welcome, ' + Username + ' !</h4>')
+        res.send($.html());
+    }
+
 })
 
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -48,6 +59,7 @@ app.post("/register", upload.none(), async (req, res) => {
             username: req.body.username,
             password: hashedPwd,
         });
+
         res.send(insertResult);
     } catch (error) {
         console.log(error);
@@ -62,6 +74,8 @@ app.post("/register", upload.none(), async (req, res) => {
 
 app.post("/login", upload.none(), async (req, res) => {
     console.log(req.body)
+    const $ = cheerio.load(fs.readFileSync('index.html'));
+
     try {
         const user = await User.findOne({ username: req.body.username });
         console.log(user);
@@ -70,7 +84,11 @@ app.post("/login", upload.none(), async (req, res) => {
             if (cmp) {
                 //   ..... further code to maintain authentication like jwt or sessions
                 Username = req.body.username;
-                res.send("Auth Successful");
+                $('#authContainer').remove();
+                $('#hero-section').append('<h4>Welcome ' + Username + ' !</h4>')
+                // res.send("Auth Successful");
+                res.send($.html());
+
             } else {
                 res.send("Wrong username or password.");
             }
