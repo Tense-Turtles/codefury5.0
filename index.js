@@ -36,6 +36,21 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
 
+fs.mkdir(appRoot + "/public/temp/community", { recursive: true }, (error) => {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log("Temp Directory created successfully !!");
+    }
+});
+fs.mkdir(appRoot + "/public/temp/profiles", { recursive: true }, (error) => {
+    if (error) {
+        console.log(error);
+    } else {
+        console.log("Temp Directory created successfully !!");
+    }
+});
+
 
 app.get('/', function (req, res) {
     if (Username == null) {
