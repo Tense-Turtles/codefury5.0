@@ -36,6 +36,7 @@ const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
 
+
 app.get('/', function (req, res) {
     if (Username == null) {
         res.sendFile(__dirname + '/index.html');
@@ -117,13 +118,11 @@ app.get('/newPost', (req, res) => {
     const $ = cheerio.load(fs.readFileSync('index.html'));
 })
 
-app.get('/allInvestors', (req,res)=>{
-    res.send(appRoot+'/frontend/startup/investers.html')
+app.get('/allInvestors', (req, res) => {
+    res.send(appRoot + '/frontend/startup/investers.html')
 })
 
-app.get('/allStartups', (req,res)=>{
-    res.sendFile(appRoot+'/frontend/startup/startuplist.html')
-})
+
 
 app.post('/postIdea', upload.none(), (req, res) => {
     const date = new Date();
@@ -148,7 +147,7 @@ app.get('/community', (req, res) => {
         console.log(theThread)
         const content = theThread.content;
         const title = theThread.title;
-        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + Username + '</p><p class="card-text">' + content + '</p><a href="#" class="inner-text ">Open discussion</a></div></div>'
+        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + Username + '</p><p class="card-text">' + content + '</p><a href="#" class="inner-text "> Visit Profile </a></div></div>'
         $('#ideasCol').append(theChildDiv)
         // console.log(readFileSync(".levels/" + file, {encoding: "utf8"}))
         res.send($.html())
@@ -157,10 +156,34 @@ app.get('/community', (req, res) => {
 })
 
 
-app.get('/createStartupProfile', (req, res) => {
-
+app.post('/createStartupProfile', upload.none(), (req, res) => {
+    const date = new Date();
+    const timestamp = date.getTime();
+    const title = req.body.title
+    const content = req.body.content
+    const theProfile = { title, content }
+    // console.log(req.body)
+    fs.writeFile(appRoot + "/public/temp/profiles/profile-" + timestamp + ".json", JSON.stringify(theProfile), function (error) {
+        if (error) { console.error("Error: " + error); }
+        console.log("post saved")
+    });
+    // res.send('profile posted')
+    res.redirect('/allStartups')
 })
+app.get('/allStartups', (req, res) => {
+    const $ = cheerio.load(fs.readFileSync(appRoot + '/frontend/startup/startuplist.html'));
+    fs.readdirSync("public/temp/profiles").forEach(file => {
+        var theProfile = fs.readFileSync(appRoot + "/public/temp/profiles/" + file, { encoding: "utf8" })
+        theProfile = JSON.parse(theProfile)
+        const content = theProfile.content;
+        const title = theProfile.title;
+        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p class="card-text">' + content + '</p><a href="#" class="inner-text ">Open discussion</a></div></div>'
+        $('#allProfileCol').append(theChildDiv)
+        res.send($.html())
+    })
 
+    // res.sendFile(appRoot + '/frontend/startup/startuplist.html')
+})
 
 
 

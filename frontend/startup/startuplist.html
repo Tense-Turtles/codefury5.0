@@ -56,7 +56,7 @@
     <main class="container">
         <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
             <div class="col-md-6 px-0">
-                <h1 class="display-4 fst-italic">StartUP's Listed</h1>
+                <h1 class="display-4 fst-italic">Startups</h1>
                 <!-- <p class="lead my-3">Get the feeds from posts of startups which might interest you</p> -->
             </div>
         </div>
@@ -65,8 +65,8 @@
             <div class="col-12 col-md-6">
                 <div class="card bg-primary  shadow-soft">
                     <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Famous StartUP</h3>
-                        <p class="card-text">A summary</p>
+                        <h3 class="h5 card-title mt-3">Somato</h3>
+                        <p class="card-text">An tasty innovation in supply chain logistics</p>
                         <a href="#" class="inner-text">Read more</a>
                     </div>
                 </div>
@@ -75,8 +75,8 @@
             <div class="col-12 col-md-6">
                 <div class="card bg-primary  shadow-soft">
                     <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Good performing StartUP</h3>
-                        <p class="card-text">A summary</p>
+                        <h3 class="h5 card-title mt-3">Medicarely</h3>
+                        <p class="card-text">Access to doctors, in your palms</p>
                         <a href="#" class="inner-text">Read more</a>
                     </div>
                 </div>
@@ -132,67 +132,30 @@
         </div>  -->
 
         <div class="row g-5">
-            <div class="col-md-8">
+            <div class="col-md-8" id="allProfileCol">
                 <h3 class="pb-4 mb-4 fst-italic border-bottom">
-                    Latest StartUP
+                    Latest Startups
                 </h3>
+
 
                 <div class="card bg-primary mb-3 shadow-soft">
                     <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Post from a company</h3>
-                        <p class="card-text"> Description of posts</p>
-                        <a href="#" class="inner-text">Read more</a>
+                        <h3 class="h5 card-title mt-3">Startup Title</h3>
+                        <p class="card-text"> Description/Moto of the Startup</p>
+                        <a href="#" class="inner-text">Visit Profile</a>
                     </div>
                 </div>
-                <div class="card bg-primary mb-3 shadow-soft">
-                    <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Post from a company</h3>
-                        <p class="card-text"> Description of posts</p>
-                        <a href="#" class="inner-text">Read more</a>
-                    </div>
-                </div>
-                <div class="card bg-primary mb-3 shadow-soft">
-                    <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Post from a company</h3>
-                        <p class="card-text"> Description of posts</p>
-                        <a href="#" class="inner-text">Read more</a>
-                    </div>
-                </div>
-                <div class="card bg-primary mb-3 shadow-soft">
-                    <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Post from a company</h3>
-                        <p class="card-text"> Description of posts</p>
-                        <a href="#" class="inner-text">Read more</a>
-                    </div>
-                </div>
-                <div class="card bg-primary mb-3 shadow-soft">
-                    <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Post from a company</h3>
-                        <p class="card-text"> Description of posts</p>
-                        <a href="#" class="inner-text">Read more</a>
-                    </div>
-                </div>
-                <div class="card bg-primary mb-3 shadow-soft">
-                    <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Post from a company</h3>
-                        <p class="card-text"> Description of posts</p>
-                        <a href="#" class="inner-text">Read more</a>
-                    </div>
-                </div>
-                <div class="card bg-primary mb-3 shadow-soft">
-                    <div class="card-body">
-                        <h3 class="h5 card-title mt-3">Post from a company</h3>
-                        <p class="card-text"> Description of posts</p>
-                        <a href="#" class="inner-text">Read more</a>
-                    </div>
-                </div>
+                
+
             </div>
 
             <div class="col-md-4">
                 <div class="position-sticky" style="top: 2rem;">
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#postIdeaModal"
+                        class="btn btn-block mb-4">Create Profile</button>
                     <div class="p-4 mb-3 bg-light rounded">
-                        <h4 class="fst-italic">Filter Feed</h4>
-                        <p class="mb-0">Add some icons here to filer the feed</p>
+                        <h4 class="fst-italic">Filter List</h4>
+                        <p class="mb-0">Find what you're looking for, at pace</p>
                     </div>
 
                     <div class="p-4">
@@ -219,6 +182,42 @@
                     </div>
 
                 </div>
+                <div class="modal fade" id="postIdeaModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-body p-0">
+                                <div class="card bg-primary shadow-soft border-light p-4">
+                                    <div class="card-header text-center pb-0">
+                                        <h2 class="h4">Post Idea</h2>
+                                    </div>
+                                    <div class="card-body">
+                                        <form enctype="multipart/form-data" method="POST" action="/createStartupProfile"
+                                            class="mt-4">
+                                            <div class="form-group">
+                                                <div class="input-group mb-4">
+                                                    <input class="form-control" id="exampleInputIcon3"
+                                                        placeholder="Title/Name" type="text" name="title"
+                                                        aria-label="email-address">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="input-group mb-4">
+                                                    <textarea class="form-control" id="exampleInputPassword6"
+                                                        placeholder="Description" type="text" name="content"
+                                                        aria-label="Password" required=""></textarea>
+                                                </div>
+
+                                            </div><button type="submit" class="btn btn-block btn-primary">Post</button>
+                                        </form>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -226,13 +225,15 @@
     <footer class="footer bg-dark text-white text-center">
 
         <p>
-            <strong>Title</strong> by <a href="https://github.com/thanmaisai">Thanmai Sai P</a>,<a
-                href="https://github.com/shell-raiser">K S Shailesh </a>,<a
+            <strong>Title</strong> by <a href="https://github.com/thanmaisai">Thanmai Sai P</a>, <a
+                href="https://github.com/shell-raiser">K S Shailesh </a>, <a
                 href="https://github.com/Beast-Sanjay">Sanjay C H</a>.
         </p>
-        <p>Made for Codefury 5.0</p>
+        <p class="mb-0">Made for Codefury 5.0</p>
     </footer>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+    crossorigin="anonymous"></script>
 
 </body>
 
