@@ -4,5 +4,5 @@ to do in backend
 
 - Sign in/up
 - Idea discussion
-- Mentor contact
+- Mentor contact(completed implementation with firebase)
 - startup posts
