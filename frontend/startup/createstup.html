@@ -5,19 +5,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/public/neumorphism.css" rel="stylesheet" type="text/css">
-    <title>Add A Post</title>
+    <title>Register Your Startup Here</title>
 </head>
 <body>
-    <div class="pl-400">
-        
+    <div class="pl-50 pr-50">
+        <div class="p-3 p-md-4 mb-4 text-white rounded bg-dark mt-50">
+            <div class="col-md-6 px-0">
+                <h1 class="display-4 fst-italic">StartUp Form</h1>
+                <p class="lead my-3">Fill the below feilds and register your <strong>Startup</strong></p>
+            </div>
+        </div>
         <div class="row">
-            <div class="pl-200 pt-7">
+            <div class="pl-50 pr-50 pt-2 w-100">
                 <div class="card bg-primary shadow-inset p-3">
                     <div class="card-body shadow-soft rounded border border-light py-5">
                         <form action="#" class="w-0">
                             <div class="form-group mb-3">
-                                <label for="name">Name</label>
-                                <input type="text" class="form-control" id="name" aria-describedby="nameHelp" >
+                                <label for="name">StartUp Name</label>
+                                <input type="text" class="form-control" id="name" aria-describedby="nameHelp"placeholder="Enter your StartUp name" >
                             </div>
                             <div class="form-group mb-3">
                                 <label for="password">StartUp Domine</label>
@@ -28,9 +33,13 @@
                                 <label for="exampleFormControlTextarea2">Explain Your StartUp</label>
                                 <textarea class="form-control" id="exampleFormControlTextarea2" rows="3" placeholder="Explain your startup idea in atleast 500 words"></textarea>
                             </div>
-                            <div class="custom-file mb-5">
+                            <div class="custom-file mb-3">
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                                 <input type="file" class="custom-file-input" id="customFile">
+                            </div>
+                            <div class="form-group mb-5">
+                                <label for="exampleFormControlTextarea2">Provide links(optional)</label>
+                                <textarea class="form-control" id="exampleFormControlTextarea2" rows="3" placeholder="provide link for the startup site if present"></textarea>
                             </div>
                         </form>
                         
