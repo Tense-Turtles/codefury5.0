@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Neumorphic Login - Free Bulma template</title>
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+    <link rel="stylesheet" type="text/css" href="./neumorphism.css">
+    <script src="bundle.js"></script>
+</head>
+<!-- <style>
+    * {
+        font-family: 'Nunito Sans', sans-serif;
+    }
+
+    :root {
+        --shadowDark: #D9DDE6;
+        --background: #E4E9F2;
+        --shadowLight: #EFF5FE;
+    }
+
+    body {
+        background: var(--background);
+    }
+
+    .hero-body {
+        justify-content: center;
+    }
+
+    .login {
+        border-radius: 25px;
+        padding: 1.5rem;
+        box-shadow: 8px 8px 15px var(--shadowDark), -8px -8px 15px var(--shadowLight);
+        align-content: center;
+        justify-content: center;
+    }
+
+    /* input {
+        background: var(--shadowDark) !important;
+    } */
+
+    button {
+        width: 100%;
+        color: #090909;
+        padding: 0.7em 1.7em;
+        font-size: 18px;
+        border-radius: 0.5em;
+        background: #E4E9F2;
+        border: 1px solid #e8e8e8;
+        transition: all .3s;
+        box-shadow: 6px 6px 12px #c5c5c5,
+            -6px -6px 12px #EFF5FE;
+    }
+
+    button:hover {
+        box-shadow: 9px 9px 33px #d1d1d1, -9px -9px 33px #EFF5FE;
+        transform: translateY(-2px);
+    }
+
+    button:active {
+        color: #666;
+        box-shadow: inset 4px 4px 12px #c5c5c5,
+            inset -4px -4px 12px #EFF5FE;
+    }
+
+    a {
+        font-weight: 600;
+    }
+</style> -->
+
+<body>
+    <section class="is-fullheight">
+        <div class=" has-text-centered" style="justify-content: center;">
+            <div class="login card shadow-soft text-center">
+                <h1 class="card-header">Sign Up</h1>
+                <form class="card-body">
+                    <!-- name -->
+                    <!-- <div class="field">
+                        <div class="control">
+                            <input class=" form-control is-rounded input" type="text" placeholder="username"
+                                id="nameInp" autocomplete="username" required />
+                        </div>
+                    </div> -->
+                    <!-- email -->
+                    <div class="field">
+                        <div class="control">
+                            <input class=" form-control is-rounded input" type="email" placeholder="user@example.com"
+                                id="emailInp" autocomplete="username" required />
+                        </div>
+                    </div>
+                    <!-- username -->
+                    <!-- <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded form-control" type="text" placeholder="username"
+                                id="usernameInp" autocomplete="current-password" required />
+                        </div>
+                    </div> -->
+                    <!-- password -->
+                    <div class="field">
+                        <div class="control">
+                            <input class="input is-medium is-rounded form-control" type="password"
+                                placeholder="*********" id="passwordInp" autocomplete="current-password" required />
+                        </div>
+                    </div>
+                    <br />
+                    <button class="btn" onclick="createUser()" type="submit" id="sub_btn">
+                        Register
+                    </button>
+                </form>
+                <br>
+                <nav class="level">
+                    <!-- <div class="level-item has-text-centered">
+                        <div>
+                            <a href="#">Forgot Password?</a>
+                        </div>
+                    </div> -->
+                    <div class="level-item has-text-centered">
+                        <div>
+                            <a href="signin.html">Sign In</a>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </section>
+
+    <!--Java Script-->
+    <script>
+        const email = document.getElementById('emailInp');
+        const password = document.getElementById('passwordInp');
+        function createUser(){
+
+        }
+    </script>
+</body>
+
+</html>
+
+<!-- onclick="signin.html" -->
