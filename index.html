@@ -229,14 +229,14 @@
                                                     <h2 class="h4">Sign Up</h2>
                                                 </div>
                                                 <div class="card-body">
-                                                    <form action="#" class="mt-4">
+                                                    <form enctype="multipart/form-data" method="POST" action="/register" class="mt-4">
                                                         <div class="form-group">
                                                             <div class="input-group mb-4">
                                                                 <div class="input-group-prepend"><span
                                                                         class="input-group-text"><span
                                                                             class="fas fa-envelope"></span></span></div>
                                                                 <input class="form-control" id="exampleInputIcon3"
-                                                                    placeholder="Username" type="text"
+                                                                    placeholder="Username" type="text" name="username"
                                                                     aria-label="email adress">
                                                             </div>
                                                         </div>
@@ -248,7 +248,7 @@
                                                                                 class="fas fa-unlock-alt"></span></span>
                                                                     </div><input class="form-control"
                                                                         id="exampleInputPassword6"
-                                                                        placeholder="Password" type="password"
+                                                                        placeholder="Password" type="password" name="password"
                                                                         aria-label="Password" required="">
                                                                 </div>
                                                             </div>

@@ -12,7 +12,18 @@ const saltRounds = 10;
 require('dotenv').config()
 const mySecret = process.env['MONGO_URI']
 const mongoose = require('mongoose');
-mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology: true })
+
+//     , function (err) {
+//     for (var i in mongoose.connection.collections) {
+//         console.log(mongoose.connection.collections[i]);
+//         // will drop collection here
+//     }
+// });
+
+
+
+
 const cheerio = require('cheerio');
 var fs = require('fs');
 
@@ -46,21 +57,24 @@ var userSchema = new mongoose.Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     joined: { type: Date, default: Date.now },
-});
+}, { collection: 'users' });
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model("User", userSchema);
 
 app.post("/register", upload.none(), async (req, res) => {
-    console.log(req.body);
+    // console.log(req.body);
+    const $ = cheerio.load(fs.readFileSync('index.html'));
     try {
         var hashedPwd = await bcrypt.hash(req.body.password, saltRounds);
-        console.log(hashedPwd);
+        // console.log(hashedPwd);
         const insertResult = await User.create({
             username: req.body.username,
             password: hashedPwd,
         });
-
-        res.send(insertResult);
+        Username = req.body.username;
+        $('#authContainer').remove();
+        $('#hero-section').append('<h4>Welcome ' + Username + ' ! <br>You have successfully registered</h4>')
+        res.send($.html());
     } catch (error) {
         console.log(error);
         res.status(500).send("Try with a different username");
@@ -73,7 +87,7 @@ app.post("/register", upload.none(), async (req, res) => {
 
 
 app.post("/login", upload.none(), async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     const $ = cheerio.load(fs.readFileSync('index.html'));
 
     try {
