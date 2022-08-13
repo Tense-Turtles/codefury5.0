@@ -1,4 +1,4 @@
-## hosted at https://codefury5project.herokuapp.com/
+## hosted at http://54.174.113.31:3000/
 
 to do in backend
 
