@@ -76,8 +76,8 @@
                          
                                 <div class="btn-group dropright mb-2 mr-2">
                                     <button type="button" class="btn btn-primary">Links</button>
-                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        <i class="fas fa-angle-right dropdown-arrow"></i>
+                                    <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="show_hide()">
+                                        <i class="fas fa-angle-down dropdown-arrow"></i>
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <div class="dropdown-menu">
@@ -87,8 +87,7 @@
                                         <div class="dropdown-divider"></div>
                                         <a class="dropdown-item" href="#">Separated link</a>
                                     </div>
-                              
-                            </div>
+                              </div>
                         </div>
                     </div>
                     <h1><hr></h1>
@@ -107,6 +106,12 @@
             </div>
    
     </main>
+    <script>
+    function show_hide() {  
+        var mylist = document.getElementById("dropdown-menu");  
+        document.getElementById("favourite").value = mylist.options[mylist.selectedIndex].text;  
+}  
+    </script>
 </body>
 </html>
 
