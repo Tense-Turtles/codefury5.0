@@ -13,13 +13,14 @@ require('dotenv').config()
 const mySecret = process.env['MONGO_URI']
 const mongoose = require('mongoose');
 mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology: true })
-
 //     , function (err) {
-//     for (var i in mongoose.connection.collections) {
-//         console.log(mongoose.connection.collections[i]);
+//     for (var i in mongoose.connection.collections.users) {
+//         console.log(mongoose.connection.collections.users[i]);
 //         // will drop collection here
 //     }
+//     done();
 // });
+
 
 
 
@@ -27,7 +28,10 @@ mongoose.connect(mySecret, { useNewUrlParser: true, useUnifiedTopology: true })
 const cheerio = require('cheerio');
 var fs = require('fs');
 
-const multer = require('multer')
+const multer = require('multer');
+const { doesNotMatch } = require('assert');
+const { time } = require('console');
+const { json } = require('body-parser');
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
@@ -47,7 +51,7 @@ app.get('/', function (req, res) {
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
-app.get('/mentors', function (req, res) {
+app.get('/allMentors', function (req, res) {
     res.sendFile(__dirname + '/frontend/Mentorship/mentors.html');
 })
 
@@ -81,11 +85,6 @@ app.post("/register", upload.none(), async (req, res) => {
     }
 
 });
-
-
-
-
-
 app.post("/login", upload.none(), async (req, res) => {
     // console.log(req.body)
     const $ = cheerio.load(fs.readFileSync('index.html'));
@@ -114,6 +113,48 @@ app.post("/login", upload.none(), async (req, res) => {
         res.status(500).send("Internal Server error Occured");
     }
 });
+app.get('/newPost', (req, res) => {
+    const $ = cheerio.load(fs.readFileSync('index.html'));
+})
+
+
+app.post('/postIdea', upload.none(), (req, res) => {
+    const date = new Date();
+    const timestamp = date.getTime();
+    const title = req.body.title
+    const content = req.body.content
+    const theThread = { title, content, responses: [] }
+    fs.writeFile(appRoot + "/public/temp/community/thread-" + timestamp + ".json", JSON.stringify(theThread), function (error) {
+        if (error) { console.error("Error: " + error); }
+        console.log("post saved")
+    });
+    // res.send('idea posted')
+    res.redirect('/community')
+})
+
+app.get('/community', (req, res) => {
+    const $ = cheerio.load(fs.readFileSync('frontend/community.html'));
+    fs.readdirSync("public/temp/community").forEach(file => {
+        // console.log(file)
+        var theThread = fs.readFileSync("public/temp/community/" + file, { encoding: "utf8" })
+        theThread = JSON.parse(theThread)
+        console.log(theThread)
+        const content = theThread.content;
+        const title = theThread.title;
+        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + Username + '</p><p class="card-text">' + content + '</p><a href="#" class="inner-text ">Open discussion</a></div></div>'
+        $('#ideasCol').append(theChildDiv)
+        // console.log(readFileSync(".levels/" + file, {encoding: "utf8"}))
+        res.send($.html())
+    })
+    // res.sendFile(__dirname + '/frontend/community.html')
+})
+
+
+app.get('/createStartupProfile', (req, res) => {
+
+})
+
+
 
 
 
