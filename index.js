@@ -117,6 +117,13 @@ app.get('/newPost', (req, res) => {
     const $ = cheerio.load(fs.readFileSync('index.html'));
 })
 
+app.get('/allInvestors', (req,res)=>{
+    res.send(appRoot+'/frontend/startup/investers.html')
+})
+
+app.get('/allStartups', (req,res)=>{
+    res.sendFile(appRoot+'/frontend/startup/startuplist.html')
+})
 
 app.post('/postIdea', upload.none(), (req, res) => {
     const date = new Date();
