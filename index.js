@@ -35,22 +35,21 @@ const { json } = require('body-parser');
 const storage = multer.memoryStorage()
 const upload = multer({ storage: storage })
 
-
+fs.mkdir(appRoot + "/public/temp", { recursive: true }, (error) => {
+    if (error) { console.log(error); }
+});
 fs.mkdir(appRoot + "/public/temp/community", { recursive: true }, (error) => {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log("Temp Directory created successfully !!");
-    }
+    if (error) { console.log(error); }
 });
 fs.mkdir(appRoot + "/public/temp/profiles", { recursive: true }, (error) => {
-    if (error) {
-        console.log(error);
-    } else {
-        console.log("Temp Directory created successfully !!");
-    }
+    if (error) { console.log(error); }
 });
-
+fs.writeFile(appRoot + "/public/temp/community/initialCompany.json", '{"title":"A Food based venture","content":"A food delivery company, which will deliver food from restaurant and deliver it to doorstep"}', (err) => {
+    if (err) throw err;
+});
+fs.writeFile(appRoot + "/public/temp/profiles/initialCompany.json", '{"title":"Swift","content":"A transportation company, connecting students and bikers"}', (err) => {
+    if (err) throw err;
+});
 
 app.get('/', function (req, res) {
     if (Username == null) {
@@ -147,7 +146,7 @@ app.post('/postIdea', upload.none(), (req, res) => {
     const theThread = { title, content, responses: [] }
     fs.writeFile(appRoot + "/public/temp/community/thread-" + timestamp + ".json", JSON.stringify(theThread), function (error) {
         if (error) { console.error("Error: " + error); }
-        console.log("post saved")
+        // console.log("post saved")
     });
     // res.send('idea posted')
     res.redirect('/community')
@@ -159,7 +158,7 @@ app.get('/community', (req, res) => {
         // console.log(file)
         var theThread = fs.readFileSync("public/temp/community/" + file, { encoding: "utf8" })
         theThread = JSON.parse(theThread)
-        console.log(theThread)
+        // console.log(theThread)
         const content = theThread.content;
         const title = theThread.title;
         var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + Username + '</p><p class="card-text">' + content + '</p><a href="#" class="inner-text "> Visit Profile </a></div></div>'
@@ -185,6 +184,7 @@ app.post('/createStartupProfile', upload.none(), (req, res) => {
     // res.send('profile posted')
     res.redirect('/allStartups')
 })
+
 app.get('/allStartups', (req, res) => {
     const $ = cheerio.load(fs.readFileSync(appRoot + '/frontend/startup/startuplist.html'));
     fs.readdirSync("public/temp/profiles").forEach(file => {
