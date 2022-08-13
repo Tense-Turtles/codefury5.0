@@ -44,7 +44,7 @@ fs.mkdir(appRoot + "/public/temp/community", { recursive: true }, (error) => {
 fs.mkdir(appRoot + "/public/temp/profiles", { recursive: true }, (error) => {
     if (error) { console.log(error); }
 });
-fs.writeFile(appRoot + "/public/temp/community/initialCompany.json", '{"title":"A Food based venture","content":"A food delivery company, which will deliver food from restaurant and deliver it to doorstep"}', (err) => {
+fs.writeFile(appRoot + "/public/temp/community/initialCompany.json", '{"title":"A Food based venture","Username":"Amar","content":"A food delivery company, which will deliver food from restaurant and deliver it to doorstep","responses": [{"Username":"Vikranth","Content":"I think this might be a good idea"}]}', (err) => {
     if (err) throw err;
 });
 fs.writeFile(appRoot + "/public/temp/profiles/initialCompany.json", '{"title":"Swift","content":"A transportation company, connecting students and bikers"}', (err) => {
@@ -143,7 +143,7 @@ app.post('/postIdea', upload.none(), (req, res) => {
     const timestamp = date.getTime();
     const title = req.body.title
     const content = req.body.content
-    const theThread = { title, content, responses: [] }
+    const theThread = { title, content, Username, responses: [] }
     fs.writeFile(appRoot + "/public/temp/community/thread-" + timestamp + ".json", JSON.stringify(theThread), function (error) {
         if (error) { console.error("Error: " + error); }
         // console.log("post saved")
@@ -152,20 +152,39 @@ app.post('/postIdea', upload.none(), (req, res) => {
     res.redirect('/community')
 })
 
+
+app.get('/posts/:ref?', (req, res) => {
+    const file = req.params.ref
+    const $ = cheerio.load(fs.readFileSync('ideaThread.html'));
+    var theThread = fs.readFileSync("public/temp/community/" + file);
+    theThread = JSON.parse(theThread)
+    const content = theThread.content;
+    const title = theThread.title;
+    const theUser = theThread.Username;
+    for (var i = 0; theThread.responses.length; i++) {
+        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><p class="card-text">' + theThread.responses[i].Content + '</p></div><p class="inner-text card-footer">By ' + theThread.responses[i].Username + '</p></div>'
+        $('#responseCol').append(theChildDiv)
+    }
+    res.send($.html())
+})
+
 app.get('/community', (req, res) => {
     const $ = cheerio.load(fs.readFileSync('frontend/community.html'));
     fs.readdirSync("public/temp/community").forEach(file => {
-        // console.log(file)
-        var theThread = fs.readFileSync("public/temp/community/" + file, { encoding: "utf8" })
+        // console.log(f)
+        var theThread = fs.readFileSync("public/temp/community/" + String(file), { encoding: "utf8" })
+        // console.log(theThread)
         theThread = JSON.parse(theThread)
         // console.log(theThread)
         const content = theThread.content;
         const title = theThread.title;
-        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + Username + '</p><p class="card-text">' + content + '</p><a href="#" class="inner-text "> Visit Profile </a></div></div>'
+        const theUser = theThread.Username;
+        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + theUser + '</p><p class="card-text">' + content + '</p><a href="/posts/' + file + '" class="inner-text "> Visit Profile </a></div></div>'
         $('#ideasCol').append(theChildDiv)
         // console.log(readFileSync(".levels/" + file, {encoding: "utf8"}))
-        res.send($.html())
+
     })
+    res.send($.html())
     // res.sendFile(__dirname + '/frontend/community.html')
 })
 
@@ -201,6 +220,9 @@ app.get('/allStartups', (req, res) => {
 })
 
 
+app.get('/logout', (req, res) => {
+    Username = null
+})
 
 
 const port = process.env.PORT || 8080;
