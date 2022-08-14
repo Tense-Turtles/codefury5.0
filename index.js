@@ -66,10 +66,16 @@ app.get('/', function (req, res) {
 
 app.use('/public', express.static(process.cwd() + '/public'));
 
+
+app.get('/mentorship',(req,res)=>{
+    res.sendFile(__dirname + '/frontend/Mentorship/mentorship_page.html');
+})
 app.get('/allMentors', function (req, res) {
     res.sendFile(__dirname + '/frontend/Mentorship/mentors.html');
 })
-
+app.get('/resources',(req,res)=>{
+    res.sendFile(__dirname + '/frontend/Mentorship/Resources.html');
+})
 var Username;
 
 var userSchema = new mongoose.Schema({
@@ -224,7 +230,7 @@ app.post('/createStartupProfile', upload.none(), (req, res) => {
     // console.log(req.body)
     fs.writeFile(appRoot + "/public/temp/profiles/profile-" + timestamp + ".json", JSON.stringify(theProfile), function (error) {
         if (error) { console.error("Error: " + error); }
-        console.log("post saved")
+        // console.log("post saved")
     });
     // res.send('profile posted')
     res.redirect('/allStartups')
@@ -239,15 +245,15 @@ app.get('/allStartups', (req, res) => {
         const title = theProfile.title;
         var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p class="card-text">' + content + '</p><a href="#" class="inner-text ">Visit Profile</a></div></div>'
         $('#allProfileCol').append(theChildDiv)
-        res.send($.html())
     })
-
+    res.send($.html())
     // res.sendFile(appRoot + '/frontend/startup/startuplist.html')
 })
 
 
 app.get('/logout', (req, res) => {
-    Username = null
+    Username = null,
+    res.redirect('/')
 })
 
 
