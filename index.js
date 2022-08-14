@@ -251,7 +251,7 @@ app.get('/allStartups', (req, res) => {
         theProfile = JSON.parse(theProfile)
         const content = theProfile.content;
         const title = theProfile.title;
-        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p class="card-text">' + content + '</p><a href="#" class="inner-text ">Visit Profile</a></div></div>'
+        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p class="card-text">' + content + '</p><a href="#" class="inner-text ">Visit Profile </a><a> | </a><a href="https://rzp.io/l/A0FdWsSpM" class="inner-text ">Fund it!</a></div></div>'
         $('#allProfileCol').append(theChildDiv)
     })
     res.send($.html())
