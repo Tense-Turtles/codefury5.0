@@ -44,7 +44,7 @@ fs.mkdir(appRoot + "/public/temp/community", { recursive: true }, (error) => {
 fs.mkdir(appRoot + "/public/temp/profiles", { recursive: true }, (error) => {
     if (error) { console.log(error); }
 });
-fs.writeFile(appRoot + "/public/temp/community/initialCompany.json", '{"title":"A Food based venture","Username":"Amar","content":"A food delivery company, which will deliver food from restaurant and deliver it to doorstep","responses": [{"Username":"Vikranth","Content":"I think this might be a good idea"}]}', (err) => {
+fs.writeFile(appRoot + "/public/temp/community/initialCompany.json", '{"title":"A Food based venture","Username":"Amar","content":"A food delivery company, which will deliver food from restaurant and deliver it to doorstep","responses": [{"Username":"Vikranth","Content":"I think this might be a good idea"},{"Username":"Amar","Content":"Maybe, we can collab ?"}]}', (err) => {
     if (err) throw err;
 });
 fs.writeFile(appRoot + "/public/temp/profiles/initialCompany.json", '{"title":"Swift","content":"A transportation company, connecting students and bikers"}', (err) => {
@@ -106,7 +106,7 @@ app.post("/login", upload.none(), async (req, res) => {
 
     try {
         const user = await User.findOne({ username: req.body.username });
-        console.log(user);
+        // console.log(user);
         if (user) {
             const cmp = await bcrypt.compare(req.body.password, user.password);
             if (cmp) {
@@ -161,13 +161,39 @@ app.get('/posts/:ref?', (req, res) => {
     const content = theThread.content;
     const title = theThread.title;
     const theUser = theThread.Username;
-    for (var i = 0; theThread.responses.length; i++) {
+    const responses = theThread.responses
+    // console.log(responses.length)
+    $('#threadHead').text(title)
+    $('#threadDesc').text(content)
+    $('#creditLine').text('by ' + theUser)
+    $('#formHolder').append('<form enctype="multipart/form-data" id="newDisccussion" method="POST" action="/posts/newDiscussion/' + file + '" class="mt-4"><div class="form-group"><div class="input-group mb-4"><textarea class="form-control" id="exampleInputPassword6"placeholder="Content" type="text" name="content" aria-label="Password" required=""></textarea></div></div><button type="submit" class="btn btn-block btn-primary">Post</button></form>')
+    for (var i = 0; i < responses.length; i++) {
         var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><p class="card-text">' + theThread.responses[i].Content + '</p></div><p class="inner-text card-footer">By ' + theThread.responses[i].Username + '</p></div>'
         $('#responseCol').append(theChildDiv)
     }
     res.send($.html())
+    // res.send(responses)
 })
 
+app.post('/posts/newDiscussion/:ref?', upload.none(), (req, res) => {
+    
+    const file = req.params.ref
+    const content = req.body.content
+    console.log(content)
+    var theThread = fs.readFileSync("public/temp/community/" + file);
+    theThread = JSON.parse(theThread)
+    theThread.responses.push({ Username, Content: content })
+    fs.writeFileSync(appRoot + '/public/temp/community/' + file, JSON.stringify(theThread), function (error) {
+        if (error) { console.error("Error: " + error); }
+    });
+    res.redirect('/posts/' + file)
+})
+
+
+
+app.get('/posts/public/neumorphism.css', (req, res) => {
+    res.sendFile(appRoot + '/public/neumorphism.css')
+})
 app.get('/community', (req, res) => {
     const $ = cheerio.load(fs.readFileSync('frontend/community.html'));
     fs.readdirSync("public/temp/community").forEach(file => {
@@ -179,7 +205,7 @@ app.get('/community', (req, res) => {
         const content = theThread.content;
         const title = theThread.title;
         const theUser = theThread.Username;
-        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + theUser + '</p><p class="card-text">' + content + '</p><a href="/posts/' + file + '" class="inner-text "> Visit Profile </a></div></div>'
+        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + theUser + '</p><p class="card-text">' + content + '</p><a href="/posts/' + file + '" class="inner-text "> Open Discussion </a></div></div>'
         $('#ideasCol').append(theChildDiv)
         // console.log(readFileSync(".levels/" + file, {encoding: "utf8"}))
 
@@ -211,7 +237,7 @@ app.get('/allStartups', (req, res) => {
         theProfile = JSON.parse(theProfile)
         const content = theProfile.content;
         const title = theProfile.title;
-        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p class="card-text">' + content + '</p><a href="#" class="inner-text ">Open discussion</a></div></div>'
+        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p class="card-text">' + content + '</p><a href="#" class="inner-text ">Visit Profile</a></div></div>'
         $('#allProfileCol').append(theChildDiv)
         res.send($.html())
     })
