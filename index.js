@@ -76,6 +76,14 @@ app.get('/allMentors', function (req, res) {
 app.get('/resources',(req,res)=>{
     res.sendFile(__dirname + '/frontend/Mentorship/Resources.html');
 })
+
+app.get('/schemes',(req,res)=>{
+    res.sendFile(__dirname + '/frontend/Mentorship/Schemes.html');
+})
+app.get('/policies',(req,res)=>{
+    res.sendFile(__dirname + '/frontend/Mentorship/Policies.html');
+})
+
 var Username;
 
 var userSchema = new mongoose.Schema({
