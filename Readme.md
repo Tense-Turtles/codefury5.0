@@ -19,3 +19,8 @@ The above implementations were from the startup side, well as an investor we pro
 
 # Hosted On: 
 [Avvio - one stop solution for all your startup needs ( AWS )](http://ec2-52-54-137-237.compute-1.amazonaws.com:3000/)
+
+## Screenshots:
+![image](https://user-images.githubusercontent.com/78999739/184808507-fda6894a-5425-4d52-902d-471783e15f76.png)
+![image](https://user-images.githubusercontent.com/78999739/184808575-dcae75a7-843a-4cec-bd2c-d13681410659.png)
+![image](https://user-images.githubusercontent.com/78999739/184808602-d7f0d944-4aee-4760-bbdb-cf7ca08fee38.png)
