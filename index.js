@@ -67,20 +67,20 @@ app.get('/', function (req, res) {
 app.use('/public', express.static(process.cwd() + '/public'));
 
 
-app.get('/mentorship',(req,res)=>{
+app.get('/mentorship', (req, res) => {
     res.sendFile(__dirname + '/frontend/Mentorship/mentorship_page.html');
 })
 app.get('/allMentors', function (req, res) {
     res.sendFile(__dirname + '/frontend/Mentorship/mentors.html');
 })
-app.get('/resources',(req,res)=>{
+app.get('/resources', (req, res) => {
     res.sendFile(__dirname + '/frontend/Mentorship/Resources.html');
 })
 
-app.get('/schemes',(req,res)=>{
+app.get('/schemes', (req, res) => {
     res.sendFile(__dirname + '/frontend/Mentorship/Schemes.html');
 })
-app.get('/policies',(req,res)=>{
+app.get('/policies', (req, res) => {
     res.sendFile(__dirname + '/frontend/Mentorship/Policies.html');
 })
 
@@ -92,8 +92,25 @@ var userSchema = new mongoose.Schema({
     joined: { type: Date, default: Date.now },
 }, { collection: 'users' });
 
+var communitySchema = new mongoose.Schema({
+    title: { type: String, required: true, unique: false },
+    content: { type: String, required: true, unique: false },
+    Username: { type: String, required: true, unique: false },
+    responses: { type: Array },
+})
+var profileSchema = new mongoose.Schema({
+    title: { type: String, required: true, unique: false },
+    content: { type: String, required: true, unique: false }
+})
+
+
+
+const Community = mongoose.model("Community", communitySchema);
+
+
 const User = mongoose.model("User", userSchema);
 
+const Profile = mongoose.model("Profile", profileSchema);
 app.post("/register", upload.none(), async (req, res) => {
     // console.log(req.body);
     const $ = cheerio.load(fs.readFileSync('index.html'));
@@ -152,16 +169,26 @@ app.get('/allInvestors', (req, res) => {
 
 
 
-app.post('/postIdea', upload.none(), (req, res) => {
+app.post('/postIdea', upload.none(), async (req, res) => {
     const date = new Date();
     const timestamp = date.getTime();
     const title = req.body.title
     const content = req.body.content
-    const theThread = { title, content, Username, responses: [] }
-    fs.writeFile(appRoot + "/public/temp/community/thread-" + timestamp + ".json", JSON.stringify(theThread), function (error) {
-        if (error) { console.error("Error: " + error); }
-        // console.log("post saved")
+    // var theThread = { title, content, Username, responses: [] }
+    // fs.writeFile(appRoot + "/public/temp/community/thread-" + timestamp + ".json", JSON.stringify(theThread), function (error) {
+    //     if (error) { console.error("Error: " + error); }
+    //     // console.log("post saved")
+    // });
+    const insertResult = await Community.create({
+        _id: "thread-" + timestamp + ".json",
+        title,
+        content,
+        Username,
+        responses: []
     });
+
+    console.log(insertResult);
+
     // res.send('idea posted')
     res.redirect('/community')
 })
@@ -170,12 +197,18 @@ app.post('/postIdea', upload.none(), (req, res) => {
 app.get('/posts/:ref?', (req, res) => {
     const file = req.params.ref
     const $ = cheerio.load(fs.readFileSync('ideaThread.html'));
-    var theThread = fs.readFileSync("public/temp/community/" + file);
-    theThread = JSON.parse(theThread)
-    const content = theThread.content;
-    const title = theThread.title;
-    const theUser = theThread.Username;
-    const responses = theThread.responses
+    // var theThread = fs.readFileSync("public/temp/community/" + file);
+    // theThread = JSON.parse(theThread)
+    Community.findById(file, function (err, pers) {
+        const content = pers.content;
+        const title = pers.title;
+        const theUser = pers.Username;
+        const responses = pers.responses
+    })
+    // const content = theThread.content;
+    // const title = theThread.title;
+    // const theUser = theThread.Username;
+    // const responses = theThread.responses
     // console.log(responses.length)
     $('#threadHead').text(title)
     $('#threadDesc').text(content)
@@ -190,7 +223,7 @@ app.get('/posts/:ref?', (req, res) => {
 })
 
 app.post('/posts/newDiscussion/:ref?', upload.none(), (req, res) => {
-    
+
     const file = req.params.ref
     const content = req.body.content
     console.log(content)
@@ -205,40 +238,48 @@ app.post('/posts/newDiscussion/:ref?', upload.none(), (req, res) => {
 
 
 
-app.get('/posts/public/neumorphism.css', (req, res) => {
-    res.sendFile(appRoot + '/public/neumorphism.css')
-})
+app.get('/posts/public/neumorphism.css', (req, res) => { res.sendFile(appRoot + '/public/neumorphism.css') })
 app.get('/community', (req, res) => {
     const $ = cheerio.load(fs.readFileSync('frontend/community.html'));
-    fs.readdirSync("public/temp/community").forEach(file => {
-        // console.log(f)
-        var theThread = fs.readFileSync("public/temp/community/" + String(file), { encoding: "utf8" })
-        // console.log(theThread)
-        theThread = JSON.parse(theThread)
-        // console.log(theThread)
-        const content = theThread.content;
-        const title = theThread.title;
-        const theUser = theThread.Username;
-        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + theUser + '</p><p class="card-text">' + content + '</p><a href="/posts/' + file + '" class="inner-text "> Open Discussion </a></div></div>'
-        $('#ideasCol').append(theChildDiv)
-        // console.log(readFileSync(".levels/" + file, {encoding: "utf8"}))
+    // fs.readdirSync("public/temp/community").forEach(file => {
+    //     // console.log(f)
+    //     var theThread = fs.readFileSync("public/temp/community/" + String(file), { encoding: "utf8" })
+    //     // console.log(theThread)
+    //     theThread = JSON.parse(theThread)
+    //     // console.log(theThread)
+    //     const content = theThread.content;
+    //     const title = theThread.title;
+    //     const theUser = theThread.Username;
+    //     var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + theUser + '</p><p class="card-text">' + content + '</p><a href="/posts/' + file + '" class="inner-text "> Open Discussion </a></div></div>'
+    //     $('#ideasCol').append(theChildDiv)
+    //     // console.log(readFileSync(".levels/" + file, {encoding: "utf8"}))
 
+    // })
+    Community.find({}, 'myField', function (err, results) {
+        console.log(err)
+        console.log(results)
     })
     res.send($.html())
     // res.sendFile(__dirname + '/frontend/community.html')
 })
 
 
-app.post('/createStartupProfile', upload.none(), (req, res) => {
+app.post('/createStartupProfile', upload.none(), async (req, res) => {
     const date = new Date();
     const timestamp = date.getTime();
     const title = req.body.title
     const content = req.body.content
-    const theProfile = { title, content }
+    // const theProfile = { title, content }
     // console.log(req.body)
-    fs.writeFile(appRoot + "/public/temp/profiles/profile-" + timestamp + ".json", JSON.stringify(theProfile), function (error) {
-        if (error) { console.error("Error: " + error); }
-        // console.log("post saved")
+    // fs.writeFile(appRoot + "/public/temp/profiles/profile-" + timestamp + ".json", JSON.stringify(theProfile), function (error) {
+    //     if (error) { console.error("Error: " + error); }
+    //     // console.log("post saved")
+    // });
+
+    const insertResult = await Profile.create({
+        _id: "profile-" + timestamp + ".json",
+        title,
+        content,
     });
     // res.send('profile posted')
     res.redirect('/allStartups')
@@ -261,7 +302,7 @@ app.get('/allStartups', (req, res) => {
 
 app.get('/logout', (req, res) => {
     Username = null,
-    res.redirect('/')
+        res.redirect('/')
 })
 
 
