@@ -181,7 +181,7 @@ app.get('/newPost', (req, res) => {
 })
 
 app.get('/allInvestors', (req, res) => {
-    res.send(appRoot + '/frontend/startup/investers.html')
+    res.sendFile(appRoot + '/frontend/startup/investers.html')
 })
 
 
