@@ -47,9 +47,12 @@ fs.mkdir(appRoot + "/public/temp/profiles", { recursive: true }, (error) => {
 fs.writeFile(appRoot + "/public/temp/community/initialCompany.json", '{"title":"A Food based venture","Username":"Amar","content":"A food delivery company, which will deliver food from restaurant and deliver it to doorstep","responses": [{"Username":"Vikranth","Content":"I think this might be a good idea"},{"Username":"Amar","Content":"Maybe, we can collab ?"}]}', (err) => {
     if (err) throw err;
 });
+
+
 fs.writeFile(appRoot + "/public/temp/profiles/initialCompany.json", '{"title":"Swift","content":"A transportation company, connecting students and bikers"}', (err) => {
     if (err) throw err;
 });
+
 
 app.get('/', function (req, res) {
     if (Username == null) {
@@ -58,7 +61,7 @@ app.get('/', function (req, res) {
     else {
         const $ = cheerio.load(fs.readFileSync('index.html'));
         $('#authContainer').remove();
-        $('#hero-section').append('<h4>Welcome, ' + Username + ' !</h4>')
+        $('#hero-section').append('<h4>Welcome, ' + Username + ' !</h4><form method="GET" action="/logout"><input class="btn btn-primary" onclick= type="submit" id="btnLogin" value="Logout"></form>')
         res.send($.html());
     }
 
@@ -111,6 +114,18 @@ const Community = mongoose.model("Community", communitySchema);
 const User = mongoose.model("User", userSchema);
 
 const Profile = mongoose.model("Profile", profileSchema);
+
+
+
+// const insertResult = Community.create({
+//     title: "A Food based venture", Username: "Amar", content: "A food delivery company, which will deliver food from restaurant and deliver it to doorstep", responses: [{ "Username": "Vikranth", "Content": "I think this might be a good idea" }, { "Username": "Amar", "Content": "Maybe, we can collab ?" }]
+// });
+
+// const insertResult2 = Profile.create({
+//     title: "Swift", content: "A transportation company, connecting students and bikers"
+// });
+
+
 app.post("/register", upload.none(), async (req, res) => {
     // console.log(req.body);
     const $ = cheerio.load(fs.readFileSync('index.html'));
@@ -123,7 +138,9 @@ app.post("/register", upload.none(), async (req, res) => {
         });
         Username = req.body.username;
         $('#authContainer').remove();
-        $('#hero-section').append('<h4>Welcome ' + Username + ' ! <br>You have successfully registered</h4>')
+        $('#hero-section').append('<h4>Welcome ' + Username + ' ! <br>You have successfully registered</h4><form method="GET" action="/logout"><input class="btn btn-primary" onclick= type="submit" id="btnLogin" value="Logout"></form>')
+        // $('#hero-section').append('')
+
         res.send($.html());
     } catch (error) {
         console.log(error);
@@ -144,7 +161,7 @@ app.post("/login", upload.none(), async (req, res) => {
                 //   ..... further code to maintain authentication like jwt or sessions
                 Username = req.body.username;
                 $('#authContainer').remove();
-                $('#hero-section').append('<h4>Welcome ' + Username + ' !</h4>')
+                $('#hero-section').append('<h4>Welcome ' + Username + ' !</h4><form method="GET" action="/logout"><input class="btn btn-primary" onclick= type="submit" id="btnLogin" value="Logout"></form>')
                 // res.send("Auth Successful");
                 res.send($.html());
 
@@ -168,19 +185,19 @@ app.get('/allInvestors', (req, res) => {
 })
 
 
-
+//done
 app.post('/postIdea', upload.none(), async (req, res) => {
     const date = new Date();
     const timestamp = date.getTime();
     const title = req.body.title
     const content = req.body.content
-    // var theThread = { title, content, Username, responses: [] }
-    // fs.writeFile(appRoot + "/public/temp/community/thread-" + timestamp + ".json", JSON.stringify(theThread), function (error) {
-    //     if (error) { console.error("Error: " + error); }
-    //     // console.log("post saved")
-    // });
+    var theThread = { title, content, Username, responses: [] }
+    fs.writeFile(appRoot + "/public/temp/community/thread-" + timestamp + ".json", JSON.stringify(theThread), function (error) {
+        if (error) { console.error("Error: " + error); }
+        // console.log("post saved")
+    });
+    // _id: timestamp,
     const insertResult = await Community.create({
-        _id: "thread-" + timestamp + ".json",
         title,
         content,
         Username,
@@ -197,19 +214,19 @@ app.post('/postIdea', upload.none(), async (req, res) => {
 app.get('/posts/:ref?', (req, res) => {
     const file = req.params.ref
     const $ = cheerio.load(fs.readFileSync('ideaThread.html'));
-    // var theThread = fs.readFileSync("public/temp/community/" + file);
-    // theThread = JSON.parse(theThread)
-    Community.findById(file, function (err, pers) {
-        const content = pers.content;
-        const title = pers.title;
-        const theUser = pers.Username;
-        const responses = pers.responses
-    })
-    // const content = theThread.content;
-    // const title = theThread.title;
-    // const theUser = theThread.Username;
-    // const responses = theThread.responses
-    // console.log(responses.length)
+    var theThread = fs.readFileSync("public/temp/community/" + file);
+    theThread = JSON.parse(theThread)
+    // Community.findById(file, function (err, pers) {
+    //     const content = pers.content;
+    //     const title = pers.title;
+    //     const theUser = pers.Username;
+    //     const responses = pers.responses
+    // })
+    const content = theThread.content;
+    const title = theThread.title;
+    const theUser = theThread.Username;
+    const responses = theThread.responses
+    console.log(responses.length)
     $('#threadHead').text(title)
     $('#threadDesc').text(content)
     $('#creditLine').text('by ' + theUser)
@@ -218,6 +235,7 @@ app.get('/posts/:ref?', (req, res) => {
         var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><p class="card-text">' + theThread.responses[i].Content + '</p></div><p class="inner-text card-footer">By ' + theThread.responses[i].Username + '</p></div>'
         $('#responseCol').append(theChildDiv)
     }
+
     res.send($.html())
     // res.send(responses)
 })
@@ -233,6 +251,12 @@ app.post('/posts/newDiscussion/:ref?', upload.none(), (req, res) => {
     fs.writeFileSync(appRoot + '/public/temp/community/' + file, JSON.stringify(theThread), function (error) {
         if (error) { console.error("Error: " + error); }
     });
+    // const insertResult = await Community.create({
+    //     title,
+    //     content,
+    //     Username,
+    //     responses: []
+    // });
     res.redirect('/posts/' + file)
 })
 
@@ -241,24 +265,24 @@ app.post('/posts/newDiscussion/:ref?', upload.none(), (req, res) => {
 app.get('/posts/public/neumorphism.css', (req, res) => { res.sendFile(appRoot + '/public/neumorphism.css') })
 app.get('/community', (req, res) => {
     const $ = cheerio.load(fs.readFileSync('frontend/community.html'));
-    // fs.readdirSync("public/temp/community").forEach(file => {
-    //     // console.log(f)
-    //     var theThread = fs.readFileSync("public/temp/community/" + String(file), { encoding: "utf8" })
-    //     // console.log(theThread)
-    //     theThread = JSON.parse(theThread)
-    //     // console.log(theThread)
-    //     const content = theThread.content;
-    //     const title = theThread.title;
-    //     const theUser = theThread.Username;
-    //     var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + theUser + '</p><p class="card-text">' + content + '</p><a href="/posts/' + file + '" class="inner-text "> Open Discussion </a></div></div>'
-    //     $('#ideasCol').append(theChildDiv)
-    //     // console.log(readFileSync(".levels/" + file, {encoding: "utf8"}))
+    fs.readdirSync("public/temp/community").forEach(file => {
+        // console.log(f)
+        var theThread = fs.readFileSync("public/temp/community/" + String(file), { encoding: "utf8" })
+        // console.log(theThread)
+        theThread = JSON.parse(theThread)
+        // console.log(theThread)
+        const content = theThread.content;
+        const title = theThread.title;
+        const theUser = theThread.Username;
+        var theChildDiv = '<div class="card bg-primary mb-3 shadow-soft"><div class="card-body"><h3 class="h5 card-title mt-3">' + title + '</h3><p>by ' + theUser + '</p><p class="card-text">' + content + '</p><a href="/posts/' + file + '" class="inner-text "> Open Discussion </a></div></div>'
+        $('#ideasCol').append(theChildDiv)
+        // console.log(readFileSync(".levels/" + file, {encoding: "utf8"}))
 
-    // })
-    Community.find({}, 'myField', function (err, results) {
-        console.log(err)
-        console.log(results)
     })
+    // Community.find({}, 'myField', function (err, results) {
+    //     console.log(err)
+    //     console.log(results)
+    // })
     res.send($.html())
     // res.sendFile(__dirname + '/frontend/community.html')
 })
@@ -269,15 +293,15 @@ app.post('/createStartupProfile', upload.none(), async (req, res) => {
     const timestamp = date.getTime();
     const title = req.body.title
     const content = req.body.content
-    // const theProfile = { title, content }
-    // console.log(req.body)
-    // fs.writeFile(appRoot + "/public/temp/profiles/profile-" + timestamp + ".json", JSON.stringify(theProfile), function (error) {
-    //     if (error) { console.error("Error: " + error); }
-    //     // console.log("post saved")
-    // });
+    const theProfile = { title, content }
+    console.log(req.body)
+    fs.writeFile(appRoot + "/public/temp/profiles/profile-" + timestamp + ".json", JSON.stringify(theProfile), function (error) {
+        if (error) { console.error("Error: " + error); }
+        // console.log("post saved")
+    });
 
+    // _id: "profile-" + timestamp + ".json",
     const insertResult = await Profile.create({
-        _id: "profile-" + timestamp + ".json",
         title,
         content,
     });
